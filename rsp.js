@@ -12,12 +12,17 @@ const replayButton = document.querySelector("#replay");
 const userSelectText = document.querySelector("#userSelect");
 const computerSelectText = document.querySelector("#computerSelect");
 
+const scoreText = document.querySelector("#score");
+const logger = document.querySelector("#logger");
+
 const HIDDEN_CLASS = "hidden";
 const FLEX_CLASS = "flex";
 
 const WIN_MESSAGE = "승리!";
 const DRAW_MESSAGE = "무승부";
 const LOOSE_MESSAGE = "패배...";
+
+const score = [0, 0, 0];
 
 let userSelect = null;
 function setUserSelect(value) {
@@ -51,22 +56,31 @@ const onPlayButtonClick = () => {
     return;
   }
 
+  const li = document.createElement("li");
+  li.setAttribute('id', score.reduce((prev, cur) => prev + cur));
+
   const result = Math.floor(Math.random() * 3);
   userSelectText.innerText = userSelect;
   switch (result) {
     case 0:
       resultText.innerText = WIN_MESSAGE;
       computerSelectText.innerText = WINNER[userSelect];
+      li.innerText = `[승리] ${userSelect} vs ${WINNER[userSelect]}`
       break;
     case 1:
       resultText.innerText = DRAW_MESSAGE;
       computerSelectText.innerText = userSelect;
+      li.innerText = `[무승부] ${userSelect} vs ${WINNER[userSelect]}`
       break;
     case 2:
       resultText.innerText = LOOSE_MESSAGE;
       computerSelectText.innerText = LOOSER[userSelect];
+      li.innerText = `[패배] ${userSelect} vs ${WINNER[userSelect]}`
       break;
   }
+  logger.prepend(li);
+  score[result]++;
+  scoreText.innerText = `${score[0]}승 ${score[1]}무 ${score[2]}패`;
   invisible(playWrapper);
   visible(resultWrapper);
 
