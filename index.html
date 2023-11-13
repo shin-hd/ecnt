@@ -7,6 +7,11 @@
             * {
                 cursor: default;
             }
+            ul {
+                list-style-type: none;
+                list-style: none;
+                padding-left: 0;
+            }
             .hidden {
                 display: none;
             }
@@ -17,14 +22,21 @@
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;
-                min-height: 100vh;
+                min-height: 98vh;
             }
             .margin-bottom {
                 margin-bottom: 10px;
             }
+            .absolute {
+                position: absolute;
+            }
         </style>
     </head>
     <body>
+        <div class="absolute">
+            <div id="score">0승 0무 0패</div>
+            <ul id="logger"></ul>
+        </div>
         <div id="title-wrapper" class="wrapper flex">
             <h1 id="title">✌🏻✊🏻🖐🏻 게임~</h1>
             <button id="start">시작하기</button>
