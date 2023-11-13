@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>가위바위보</title>
+        <style>
+            * {
+                cursor: default;
+            }
+            .hidden {
+                display: none;
+            }
+            .flex {
+                display: flex;
+            }
+            .wrapper {
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            .margin-bottom {
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="title-wrapper" class="wrapper flex">
+            <h1 id="title">✌🏻✊🏻🖐🏻 게임~</h1>
+            <button id="start">시작하기</button>
+        </div>
+        <div id="play-wrapper" class="wrapper hidden">
+            <div id="radio-wrapper" class="margin-bottom flex">
+                <input
+                    type="radio"
+                    name="rsp"
+                    value="✊🏻"
+                    onchange="setUserSelect(value)"
+                />바위
+                <input
+                    type="radio"
+                    name="rsp"
+                    value="✌🏻"
+                    onchange="setUserSelect(value)"
+                />가위
+                <input
+                    type="radio"
+                    name="rsp"
+                    value="🖐🏻"
+                    onchange="setUserSelect(value)"
+                />보
+            </div>
+            <div class="flex">
+                <button id="play">내기</button>
+            </div>
+        </div>
+        <div id="result-wrapper" class="wrapper hidden">
+            <div class="flex margin-bottom">
+                <span id="userSelect"></span
+                ><span style="color: red">[유저]</span>vs
+                <span id="computerSelect"></span>
+                <span style="color: blue">[컴퓨터]</span>
+            </div>
+            <div id="result" class="flex margin-bottom"></div>
+            <button id="replay">다시하기</button>
+        </div>
+        <script src="./rsp.js"></script>
+    </body>
+</html>
