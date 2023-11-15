@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Pung List</title>
+    <style>
+      * {
+        cursor: default;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-width: 500px;
+      }
+      ul {
+        list-style-type: none;
+        list-style: none;
+        padding-left: 0;
+      }
+      .hidden {
+        display: none;
+      }
+      .flex {
+        display: flex;
+        flex: 1;
+      }
+      .wrapper {
+        /* justify-content: center; */
+        padding: 10px;
+      }
+      .flex-col {
+        flex-direction: column;
+      }
+      .flex-row {
+        flex-direction: row;
+      }
+      .margin-bottom {
+        margin-bottom: 20px;
+      }
+      .absolute {
+        position: absolute;
+      }
+      .tiny {
+        width: 25px;
+      }
+      .small {
+        width: 40px;
+        height: 25px;
+      }
+      .btn-middle {
+        width: 70px;
+        height: 25px;
+      }
+      .middle {
+        width: 150px;
+        height: 25px;
+      }
+      .margin-child > * {
+        margin-right: 10px;
+      }
+      .center {
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header-wrapper" class="wrapper flex flex-col margin-bottom">
+      <h1 id="title" class="margin-bottom">Pung List</h1>
+      <div id="inputs" class="flex margin-child margin-bottom" value="">
+        <input type="text" id="text" />
+        <div id="input-btns">
+          <button class="small" value="5">5초</button>
+          <button class="small" value="10">10초</button>
+          <button class="small" value="15">15초</button>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex margin-child">
+          <span>총:</span>
+          <span id="item-count">0 건</span>
+        </div>
+        <div class="flex margin-child">
+          <span>평균 남은시간:</span>
+          <span id="average-time">0.0 초</span>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper flex flex-col">
+      <div id="create-btns" class="flex margin-child">
+        <button class="btn-middle" id="reset">초기화</button>
+        <button class="btn-middle" id="double">x2</button>
+        <button class="btn-middle" id="plus">전체+5</button>
+        <button class="btn-middle" id="stop">전체 중지</button>
+        <button class="btn-middle" id="start">전체 시작</button>
+      </div>
+      <div id="item-wrapper" class="wrapper flex flex-col margin-bottom large">
+        <ul id="item-list" class="margin-bottom"></ul>
+      </div>
+    </div>
+    <script type="module" src="./pungList.js"></script>
+  </body>
+</html>
