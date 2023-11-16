@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>식당 시뮬레이션</title>
+    <style>
+      * {
+        cursor: default;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-width: 500px;
+      }
+      ul {
+        list-style-type: none;
+        list-style: none;
+        padding-left: 0;
+      }
+      .hidden {
+        display: none;
+      }
+      .flex {
+        display: flex;
+        flex: 1;
+      }
+      .wrapper {
+        /* justify-content: center; */
+        padding: 10px;
+      }
+      .flex-col {
+        flex-direction: column;
+      }
+      .flex-row {
+        flex-direction: row;
+      }
+      .margin-bottom {
+        margin-bottom: 20px;
+      }
+      .absolute {
+        position: absolute;
+      }
+      .small {
+        width: 80px;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header-wrapper" class="wrapper flex flex-col margin-bottom">
+      <h1 id="title" class="margin-bottom">식당 시뮬레이션</h1>
+      <div class="btns-order">
+        <button class="small" value="순댓국">순댓국</button>
+        <button class="small" value="해장국">해장국</button>
+      </div>
+    </div>
+    <div class="wrapper flex flex-row">
+      <div id="order-wrapper" class="wrapper flex flex-col margin-bottom large">
+        <h1>주문</h1>
+        <ul id="order-list"></ul>
+      </div>
+      <div id="chef-wrapper" class="wrapper flex flex-col margin-bottom large">
+        <h1>요리사</h1>
+        <ul id="chef-list" class="margin-bottom">
+          <li id="대장금"></li>
+          <li id="백주부"></li>
+        </ul>
+        <h1>요리중</h1>
+        <ul id="cooking-list"></ul>
+      </div>
+      <div
+        id="server-wrapper"
+        class="wrapper flex flex-col margin-bottom large"
+      >
+        <h1>서버</h1>
+        <ul id="server-list" class="margin-bottom">
+          <li id="홍길동"></li>
+          <li id="핑핑이"></li>
+        </ul>
+        <h1>서빙중</h1>
+        <ul id="serving-list"></ul>
+      </div>
+    </div>
+  </body>
+</html>
