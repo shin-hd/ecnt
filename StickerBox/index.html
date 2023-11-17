@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>스티커 박스</title>
+    <style>
+      * {
+        cursor: default;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        min-width: 500px;
+      }
+      ul {
+        list-style-type: none;
+        list-style: none;
+        padding-left: 0;
+      }
+      .hidden {
+        display: none;
+      }
+      .flex {
+        display: flex;
+        flex: 1;
+      }
+      .wrapper {
+        /* justify-content: center; */
+        padding: 10px;
+      }
+      .flex-col {
+        flex-direction: column;
+      }
+      .flex-row {
+        flex-direction: row;
+      }
+      .last-margin-none:last-child {
+        margin-bottom: none;
+      }
+      .margin-right {
+        margin-right: 10px;
+      }
+      .margin-bottom-10 {
+        margin-bottom: 10px;
+      }
+      .margin-bottom {
+        margin-bottom: 20px;
+      }
+      .absolute {
+        position: absolute;
+      }
+      .btn-small {
+        width: 80px;
+        height: 30px;
+      }
+      .btn-middle {
+        width: 100px;
+        height: 30px;
+      }
+      .box {
+        position: absolute;
+        width: 300px;
+        padding: 20px;
+      }
+      .bg-gray {
+        background-color: #eee;
+      }
+      .space-between {
+        justify-content: space-between;
+      }
+      .center {
+        align-items: center;
+      }
+      .padding {
+        padding: 10px;
+      }
+      .flex-4 {
+        flex: 0.4;
+        height: 100%;
+      }
+      .outline {
+        border: 1px solid #666;
+      }
+      .height-40 {
+        height: 40px;
+      }
+      .height-32 {
+        height: 32px;
+      }
+      .text-16 {
+        font-size: 16px;
+      }
+      .round {
+        border-radius: 3px;
+      }
+      .overflow-hidden {
+        overflow: hidden;
+      }
+      .overflow-ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 15px;
+      }
+    </style>
+  </head>
+  <body class="overflow-hidden">
+    <div id="header-wrapper" class="wrapper flex flex-col margin-bottom">
+      <div class="btns">
+        <button class="btn-middle create">스티커 만들기</button>
+        <button class="btn-small delete">전체 삭제</button>
+      </div>
+    </div>
+    <div id="sticker-wrapper" class="wrapper flex">
+      <!-- <div id="sticker-1" class="box round">
+        <div class="flex">
+          <input type="text" class="hidden" />
+          <h2 class="">스티커1</h2>
+        </div>
+        <div class="btns margin-bottom">
+          <button id="create" class="btn-small">항목 추가</button>
+          <button id="delete" class="btn-middle">스티커 삭제</button>
+        </div>
+        <ul class="last-margin-none">
+          <li
+            class="bg-gray flex space-between outline margin-bottom-10 height-40 round"
+          >
+            <div class="padding flex center">content</div>
+            <input type="text" class="hidden" />
+            <button class="btn-small btn-simple flex-4">삭제</button>
+          </li>
+          <li
+            class="bg-gray flex space-between outline-margin-bottom height-40 round"
+          >
+            <div class="padding flex center">content</div>
+            <button class="btn-small btn-simple flex-4">삭제</button>
+          </li>
+        </ul>
+      </div> -->
+    </div>
+    <script type="module" src="./src/index.js"></script>
+  </body>
+</html>
