@@ -2,20 +2,26 @@ import Item from './item.js';
 import { getRandomBrightColor } from './utils/color.js';
 
 export default class Sticker {
-  itemList = [];
+  itemMap = new Map();
 
-  constructor({ name, top, left, onRemove }) {
+  constructor({
+    name = null,
+    items = [],
+    top = 50,
+    left = 20,
+    color = null,
+    onRemove = () => {},
+  }) {
     this.name = name;
-    this.top = top;
-    this.left = left;
-    this.dom = this.createDom();
+    this.dom = this.createDom(top, left, color);
     this.remove = () => {
-      onRemove?.(this);
+      onRemove(this);
       this.dom?.box.remove();
     };
+    this.createItemMap(items);
   }
 
-  createDom = () => {
+  createDom = (top, left, color) => {
     const nameInput = document.createElement('input');
     const nameH2 = document.createElement('h2');
     const switchHidden = () => {
@@ -28,7 +34,7 @@ export default class Sticker {
     };
     // 스티커명 입력
     nameInput.type = 'text';
-    nameInput.maxLength = 10;
+    nameInput.maxLength = 15;
     nameInput.value = this.name ?? 'sticker';
     nameInput.classList.add('height-32');
     nameInput.classList.add('text-16');
@@ -64,20 +70,17 @@ export default class Sticker {
     createButton.innerText = '항목 추가';
     createButton.addEventListener('click', () => {
       const item = new Item({
-        onRemove: (item) => {
-          const index = this.itemList.indexOf(item);
-          this.itemList.splice(index, 1);
-        },
+        onRemove: (item) => this.itemMap.delete(item.getDom()),
       });
       ul.appendChild(item.getDom());
-      this.itemList.push(item);
+      this.itemMap.set(item.getDom(), item);
       item.focusInput();
     });
     const deleteButton = document.createElement('button');
     deleteButton.className = 'btn-middle';
     deleteButton.innerText = '스티커 삭제';
     deleteButton.addEventListener('click', () => {
-      if (confirm(`${this.name} 스티커를 삭제하시겠습니까?`)) box.remove();
+      if (confirm(`${this.name} 스티커를 삭제하시겠습니까?`)) this.remove();
     });
     const buttonsDiv = document.createElement('div');
     buttonsDiv.className = 'btns margin-bottom flex';
@@ -86,11 +89,11 @@ export default class Sticker {
 
     // 스티커 박스
     const box = document.createElement('div');
-    box.style.backgroundColor = getRandomBrightColor();
+    box.style.backgroundColor = color ?? getRandomBrightColor();
+    box.style.top = top + 'px';
+    box.style.left = left + 'px';
     box.className = 'box round outline';
-    box.addEventListener('mouseenter', (e) => {
-      box.parentNode.appendChild(box);
-    });
+    box.addEventListener('mouseenter', () => box.parentNode.appendChild(box));
     box.appendChild(nameDiv);
     box.appendChild(buttonsDiv);
     box.appendChild(ul);
@@ -98,5 +101,48 @@ export default class Sticker {
     return { box, ul, nameInput };
   };
 
-  focusInput = () => this.dom?.nameInput?.focus();
+  focusInput = () => this.dom.nameInput.focus();
+
+  createItemMap = (items) => {
+    items
+      .map(
+        (item) =>
+          new Item({
+            ...item,
+            onRemove: (item) => this.itemMap.delete(item.getDom()),
+          }),
+      )
+      .forEach((item) => {
+        this.itemMap.set(item.getDom(), item);
+        this.dom.ul.appendChild(item.getDom());
+      });
+  };
+
+  getDom = () => this.dom.box;
+
+  getItemByDom = (itemEl) => this.itemMap.get(itemEl);
+
+  addItem = (item) => {
+    this.dom.ul.appendChild(item.getDom());
+    this.itemMap.set(item.getDom(), item);
+  };
+
+  serialize = () => {
+    const boxRect = this.dom.box.getBoundingClientRect();
+    return {
+      name: this.name,
+      top: boxRect.top,
+      left: boxRect.left,
+      color: this.dom.box.style.backgroundColor,
+      items: this.getSerializedItemList(),
+    };
+  };
+
+  getSerializedItemList = () => {
+    const serializedItemList = [];
+    for (const itemEl of this.dom.ul.children) {
+      serializedItemList.push(this.itemMap.get(itemEl).serialize());
+    }
+    return serializedItemList;
+  };
 }

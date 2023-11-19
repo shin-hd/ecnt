@@ -1,7 +1,7 @@
 export default class Item {
-  constructor({ content = null, onRemove }) {
+  constructor({ content = null, onRemove = () => {} }) {
     this.content = content;
-    this.li = this.createDom();
+    [this.li, this.focusInput] = this.createDom();
     this.remove = () => {
       onRemove(this);
       this.li?.remove();
@@ -10,7 +10,7 @@ export default class Item {
 
   createDom = () => {
     const contentInput = document.createElement('input');
-    this.focusInput = () => contentInput.focus();
+    const focusInput = () => contentInput.focus();
     const contentDiv = document.createElement('div');
     const switchHidden = () => {
       contentDiv.classList.toggle('flex');
@@ -25,41 +25,40 @@ export default class Item {
     // 내용 입력
     contentInput.type = 'text';
     contentInput.value = this.content ?? 'content';
-    contentInput.maxLength = 12;
+    contentInput.maxLength = 15;
     contentInput.classList.add('padding');
     contentInput.classList.add(this.content ? 'hidden' : 'flex');
     contentInput.addEventListener(
       'input',
       () => (this.content = contentInput.value),
     );
-    contentInput.addEventListener('focusout', () => {
-      switchHidden();
-    });
+    contentInput.addEventListener('focusout', switchHidden);
 
     // 내용 표시
-    contentDiv.className = 'padding center overflow-ellipsis';
+    contentDiv.className = 'padding center overflow-ellipsis item-child';
     contentDiv.classList.add(this.content ? 'flex' : 'hidden');
     contentDiv.innerText = this.content ?? '';
-    contentDiv.addEventListener('click', () => switchHidden());
+    contentDiv.addEventListener('click', switchHidden);
 
     // 삭제 버튼
     const removeButton = document.createElement('button');
-    removeButton.className = 'btn-small btn-simple flex-4';
+    removeButton.className = 'btn-small btn-simple flex-4 item-child';
     removeButton.innerText = '삭제';
     removeButton.addEventListener('click', () => this.remove());
 
     // 아이템 li
     const li = document.createElement('li');
     li.className =
-      'bg-gray flex space-between outline margin-bottom-10 height-40 round';
+      'item bg-gray flex space-between outline margin-bottom-10 height-40 round';
     li.appendChild(contentInput);
     li.appendChild(contentDiv);
     li.appendChild(removeButton);
-    li.addEventListener('click', this.focusInput);
-    return li;
+    li.addEventListener('click', focusInput);
+
+    return [li, focusInput];
   };
 
   getDom = () => this.li;
 
-  focusInput = () => {};
+  serialize = () => ({ content: this.content });
 }

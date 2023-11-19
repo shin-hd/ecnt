@@ -1,6 +1,15 @@
-import Sticker from './sticker.js';
-import { createSticker } from './stickerList.js';
+import {
+  createSticker,
+  deleteStickers,
+  loadStickers,
+  saveStickers,
+} from './stickerList.js';
 
-const addButton = document.querySelector('#header-wrapper .btns .create');
+const createButton = document.querySelector('#header-wrapper .btns .create');
+const deleteButton = document.querySelector('#header-wrapper .btns .delete');
 
-addButton.addEventListener('click', () => createSticker());
+createButton.addEventListener('click', createSticker);
+deleteButton.addEventListener('click', deleteStickers);
+
+window.addEventListener('beforeunload', saveStickers);
+window.addEventListener('load', loadStickers);
