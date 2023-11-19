@@ -26,6 +26,7 @@ export default class Item {
     contentInput.type = 'text';
     contentInput.value = this.content ?? 'content';
     contentInput.maxLength = 15;
+    contentInput.name = 'content';
     contentInput.classList.add('padding');
     contentInput.classList.add(this.content ? 'hidden' : 'flex');
     contentInput.addEventListener(

@@ -32,10 +32,11 @@ export default class Sticker {
       nameH2.innerText = nameInput.value;
       this.name = nameInput.value;
     };
-    // 스티커명 입력
+    // 스티커명 input
     nameInput.type = 'text';
     nameInput.maxLength = 15;
     nameInput.value = this.name ?? 'sticker';
+    nameInput.name = 'sticker';
     nameInput.classList.add('height-32');
     nameInput.classList.add('text-16');
     nameInput.classList.add(this.name ? 'hidden' : 'flex');
@@ -60,7 +61,7 @@ export default class Sticker {
     nameDiv.appendChild(nameInput);
     nameDiv.appendChild(nameH2);
 
-    // 아이템리스트
+    // 아이템 리스트
     const ul = document.createElement('ul');
     ul.className = 'last-margin-none';
 
