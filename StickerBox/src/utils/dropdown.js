@@ -20,9 +20,20 @@ export const boxDropDownEventHandler = (e) => {
   boxEl.addEventListener('mouseup', onMouseUp);
 };
 
-export const itemDropDownEventHandler = (e, getStickerByDom) => {
-  const boxEl = e.target.closest('.box');
-  const itemEl = e.target.closest('.item');
+const getTargetElements = (event, filterEl) => {
+  const elements = document.elementsFromPoint(event.clientX, event.clientY);
+  const targetBoxEl = elements.find((element) =>
+    element.classList.contains('box'),
+  );
+  const targetItemEl = elements.find(
+    (element) => element.classList.contains('item') && element !== filterEl,
+  );
+  return [targetBoxEl, targetItemEl];
+};
+
+export const itemDropDownEventHandler = (downEvent, getStickerByDom) => {
+  const boxEl = downEvent.target.closest('.box');
+  const itemEl = downEvent.target.closest('.item');
   if (!itemEl) return;
 
   const sticker = getStickerByDom(boxEl);
@@ -43,29 +54,55 @@ export const itemDropDownEventHandler = (e, getStickerByDom) => {
   shadow.className = 'item-shadow margin-bottom-10 round';
   itemEl.parentNode.insertBefore(shadow, itemEl);
 
-  const shiftX = e.clientX - left;
-  const shiftY = e.clientY - top;
+  const shiftX = downEvent.clientX - left;
+  const shiftY = downEvent.clientY - top;
 
   const onMouseMove = (moveEvent) => {
     itemEl.style.left = moveEvent.clientX - shiftX + 'px';
     itemEl.style.top = moveEvent.clientY - shiftY + 'px';
+
+    if (
+      Math.abs(downEvent.clientX - moveEvent.clientX) < 20 &&
+      Math.abs(downEvent.clientY - moveEvent.clientY) < 20
+    )
+      return;
+
+    const [targetBoxEl, targetItemEl] = getTargetElements(moveEvent, itemEl);
+    if (targetItemEl) {
+      const targetUl = getStickerByDom(targetBoxEl).dom.ul;
+      targetItemEl.nextSibling
+        ? targetUl.insertBefore(shadow, targetItemEl)
+        : targetUl.appendChild(shadow);
+    } else if (targetBoxEl) {
+      targetBoxEl.appendChild(shadow);
+    } else {
+      itemEl.parentNode.insertBefore(shadow, itemEl);
+    }
   };
 
-  const onMouseUp = (upEvenet) => {
-    itemEl.style.zIndex = '';
-    const box = document
-      .elementsFromPoint(upEvenet.clientX, upEvenet.clientY)
-      .find(
-        (element) => element.classList.contains('box') && element !== boxEl,
-      );
-    if (box) {
-      const sticker = getStickerByDom(box);
-      sticker.addItem(item);
-    }
+  const onMouseUp = (upEvent) => {
     shadow.remove();
+    itemEl.style.zIndex = '';
     itemEl.classList.remove('absolute');
     itemEl.removeEventListener('mousemove', onMouseMove);
     itemEl.removeEventListener('mouseup', onMouseUp);
+
+    if (
+      Math.abs(downEvent.clientX - upEvent.clientX) < 20 &&
+      Math.abs(downEvent.clientY - upEvent.clientY) < 20
+    )
+      return;
+
+    const [targetBoxEl, targetItemEl] = getTargetElements(upEvent, itemEl);
+    if (targetItemEl) {
+      const targetUl = getStickerByDom(targetBoxEl).dom.ul;
+      targetItemEl.nextSibling
+        ? targetUl.insertBefore(itemEl, targetItemEl)
+        : targetUl.appendChild(itemEl);
+    } else if (targetBoxEl) {
+      const sticker = getStickerByDom(targetBoxEl);
+      sticker.addItem(item);
+    }
   };
 
   itemEl.addEventListener('mousemove', onMouseMove);

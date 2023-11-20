@@ -1,14 +1,32 @@
 import Item from './item.js';
 import { getRandomBrightColor } from './utils/color.js';
 
+const getNextTop = (() => {
+  let top = 50;
+  return () => {
+    const curTop = top;
+    if (top > document.documentElement.scrollHeight - 200) top = 50;
+    else top += 50;
+    return curTop;
+  };
+})();
+const getNextLeft = (() => {
+  let left = 20;
+  return () => {
+    const curLeft = left;
+    left = left + 10;
+    return curLeft;
+  };
+})();
+
 export default class Sticker {
   itemMap = new Map();
 
   constructor({
     name = null,
     items = [],
-    top = 50,
-    left = 20,
+    top = getNextTop(),
+    left = getNextLeft(),
     color = null,
     onRemove = () => {},
   }) {
